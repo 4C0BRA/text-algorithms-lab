@@ -1,0 +1,19 @@
+text n,pattern,algorithm,mean us,sd us,matches,scan comparisons,comparisons / n,setup comparisons,hash hits,spurious hits
+10000,present,Naive,28.44,11.71,1,10389,1.04,0,-,-
+10000,present,KMP,18.82,0.182,1,10372,1.04,16,-,-
+10000,present,Rabin-Karp,55.90,0.100,1,16,0.002,0,1,0
+10000,absent,Naive,27.27,4.33,0,10387,1.04,0,-,-
+10000,absent,KMP,21.19,2.53,0,10385,1.04,15,-,-
+10000,absent,Rabin-Karp,58.68,4.59,0,0,0.000,0,0,0
+50000,present,Naive,126.0,9.06,1,52010,1.04,0,-,-
+50000,present,KMP,98.05,5.25,1,51918,1.04,16,-,-
+50000,present,Rabin-Karp,283.3,5.62,1,16,0.000,0,1,0
+50000,absent,Naive,120.0,2.19,0,51885,1.04,0,-,-
+50000,absent,KMP,91.53,2.39,0,51831,1.04,15,-,-
+50000,absent,Rabin-Karp,281.8,6.51,0,0,0.000,0,0,0
+100000,present,Naive,245.0,5.56,1,103997,1.04,0,-,-
+100000,present,KMP,197.0,8.09,1,103835,1.04,15,-,-
+100000,present,Rabin-Karp,577.5,15.33,1,16,0.000,0,1,0
+100000,absent,Naive,253.5,6.81,0,103985,1.04,0,-,-
+100000,absent,KMP,189.6,6.46,0,103814,1.04,16,-,-
+100000,absent,Rabin-Karp,569.7,9.28,0,0,0.000,0,0,0
