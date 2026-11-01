@@ -1,5 +1,6 @@
 package io.github.ignat22.textlab.testkit;
 
+import io.github.ignat22.textlab.dp.LcsTests;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -10,7 +11,9 @@ import java.util.List;
 
 public final class TestLauncher {
 
-    private static final List<Class<?>> SUITES = List.of();
+    private static final List<Class<?>> SUITES = List.of(
+            LcsTests.class
+    );
 
     public static void main(String[] args) throws Exception {
         int passed = 0;
