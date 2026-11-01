@@ -1,0 +1,7 @@
+n,input,mean us,sd us,comparisons,comparisons / n,max LCP,avg LCP
+1000,random a-z,4.98,0.062,1971,1.97,4,1.48
+1000,Fibonacci word,4.47,0.114,1607,1.61,608,261.6
+5000,random a-z,28.31,0.434,9971,1.99,4,1.99
+5000,Fibonacci word,32.29,1.26,7581,1.52,2582,1251.1
+10000,random a-z,73.86,1.44,19970,2.00,6,2.18
+10000,Fibonacci word,53.99,12.12,14178,1.42,5819,2567.0
