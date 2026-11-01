@@ -2,6 +2,8 @@ package io.github.ignat22.textlab.testkit;
 
 import io.github.ignat22.textlab.dp.EditDistanceTests;
 import io.github.ignat22.textlab.dp.LcsTests;
+import io.github.ignat22.textlab.search.PatternSearchTests;
+import io.github.ignat22.textlab.search.RabinKarpTests;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -14,7 +16,9 @@ public final class TestLauncher {
 
     private static final List<Class<?>> SUITES = List.of(
             LcsTests.class,
-            EditDistanceTests.class
+            EditDistanceTests.class,
+            PatternSearchTests.class,
+            RabinKarpTests.class
     );
 
     public static void main(String[] args) throws Exception {
