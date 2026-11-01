@@ -306,6 +306,212 @@ In addition, the benchmark itself re-checks correctness: for every text size and
 
 ---
 
-## 6. Results
+## 6. Results: tables and plots
 
-To be added after the experiments are analysed.
+The complete generated output is in [`results/RESULTS.md`](results/RESULTS.md), raw data in [`results/*.csv`](results), plots in [`plots/`](plots). Times below are means of 5 runs.
+
+### 6.1 LCS and Edit Distance
+
+| n = m | cells | LCS, ms | LCS ns/cell | LCS length | ED, ms | ED ns/cell | edit distance |
+|---:|---:|---:|---:|---:|---:|---:|---:|
+| 100 | 10,000 | 0.026 | 2.60 | 27 | 0.029 | 2.90 | 91 |
+| 500 | 250,000 | 0.522 | 2.09 | 158 | 0.661 | 2.64 | 448 |
+| 1,000 | 1,000,000 | 1.69 | 1.69 | 323 | 2.54 | 2.54 | 885 |
+
+![LCS and Edit Distance running time](plots/dp-time.svg)
+
+### 6.2 String matching on random text (σ = 26, m = 16)
+
+| text n | pattern | algorithm | time, µs | matches | scan comparisons | comparisons / n | hash hits | spurious |
+|---:|---|---|---:|---:|---:|---:|---:|---:|
+| 10,000 | present | Naive | 28.4 | 1 | 10,389 | 1.04 | – | – |
+| 10,000 | present | KMP | 18.8 | 1 | 10,372 | 1.04 | – | – |
+| 10,000 | present | Rabin–Karp | 55.9 | 1 | 16 | 0.002 | 1 | 0 |
+| 10,000 | absent | Naive | 27.3 | 0 | 10,387 | 1.04 | – | – |
+| 10,000 | absent | KMP | 21.2 | 0 | 10,385 | 1.04 | – | – |
+| 10,000 | absent | Rabin–Karp | 58.7 | 0 | 0 | 0 | 0 | 0 |
+| 50,000 | present | Naive | 126.0 | 1 | 52,010 | 1.04 | – | – |
+| 50,000 | present | KMP | 98.1 | 1 | 51,918 | 1.04 | – | – |
+| 50,000 | present | Rabin–Karp | 283.3 | 1 | 16 | 0.000 | 1 | 0 |
+| 50,000 | absent | Naive | 120.0 | 0 | 51,885 | 1.04 | – | – |
+| 50,000 | absent | KMP | 91.5 | 0 | 51,831 | 1.04 | – | – |
+| 50,000 | absent | Rabin–Karp | 281.8 | 0 | 0 | 0 | 0 | 0 |
+| 100,000 | present | Naive | 245.0 | 1 | 103,997 | 1.04 | – | – |
+| 100,000 | present | KMP | 197.0 | 1 | 103,835 | 1.04 | – | – |
+| 100,000 | present | Rabin–Karp | 577.5 | 1 | 16 | 0.000 | 1 | 0 |
+| 100,000 | absent | Naive | 253.5 | 0 | 103,985 | 1.04 | – | – |
+| 100,000 | absent | KMP | 189.6 | 0 | 103,814 | 1.04 | – | – |
+| 100,000 | absent | Rabin–Karp | 569.7 | 0 | 0 | 0 | 0 | 0 |
+
+KMP additionally spent 15–16 comparisons building the border table.
+
+![String matching, pattern present, random text](plots/matching-random-present.svg)
+
+![String matching, pattern absent, random text](plots/matching-random-absent.svg)
+
+### 6.3 String matching on a Fibonacci word (σ = 2, m = 40)
+
+| text n | pattern | algorithm | time, µs | matches | scan comparisons | comparisons / n | hash hits | spurious |
+|---:|---|---|---:|---:|---:|---:|---:|---:|
+| 10,000 | present | Naive | 35.3 | 344 | 54,881 | 5.49 | – | – |
+| 10,000 | present | KMP | 15.0 | 344 | 10,212 | 1.02 | – | – |
+| 10,000 | present | Rabin–Karp | 68.0 | 344 | 13,760 | 1.38 | 344 | 0 |
+| 10,000 | absent | Naive | 34.6 | 0 | 54,881 | 5.49 | – | – |
+| 10,000 | absent | KMP | 15.8 | 0 | 10,556 | 1.06 | – | – |
+| 10,000 | absent | Rabin–Karp | 55.9 | 0 | 0 | 0 | 0 | 0 |
+| 50,000 | present | Naive | 187.9 | 1,721 | 275,142 | 5.50 | – | – |
+| 50,000 | present | KMP | 76.8 | 1,721 | 51,064 | 1.02 | – | – |
+| 50,000 | present | Rabin–Karp | 346.4 | 1,721 | 68,840 | 1.38 | 1,721 | 0 |
+| 50,000 | absent | Naive | 170.4 | 0 | 275,142 | 5.50 | – | – |
+| 50,000 | absent | KMP | 76.7 | 0 | 52,785 | 1.06 | – | – |
+| 50,000 | absent | Rabin–Karp | 284.0 | 0 | 0 | 0 | 0 | 0 |
+| 100,000 | present | Naive | 362.0 | 3,443 | 550,454 | 5.50 | – | – |
+| 100,000 | present | KMP | 161.2 | 3,443 | 102,128 | 1.02 | – | – |
+| 100,000 | present | Rabin–Karp | 695.5 | 3,443 | 137,720 | 1.38 | 3,443 | 0 |
+| 100,000 | absent | Naive | 342.8 | 0 | 550,454 | 5.50 | – | – |
+| 100,000 | absent | KMP | 148.3 | 0 | 105,571 | 1.06 | – | – |
+| 100,000 | absent | Rabin–Karp | 572.0 | 0 | 0 | 0 | 0 | 0 |
+
+![String matching, pattern present, Fibonacci word](plots/matching-fibonacci-present.svg)
+
+![String matching, pattern absent, Fibonacci word](plots/matching-fibonacci-absent.svg)
+
+### 6.4 Kasai's LCP algorithm
+
+| n | input | time, µs | comparisons | comparisons / n | max LCP | average LCP |
+|---:|---|---:|---:|---:|---:|---:|
+| 1,000 | random a–z | 4.98 | 1,971 | 1.97 | 4 | 1.48 |
+| 1,000 | Fibonacci word | 4.47 | 1,607 | 1.61 | 608 | 261.6 |
+| 5,000 | random a–z | 28.3 | 9,971 | 1.99 | 4 | 1.99 |
+| 5,000 | Fibonacci word | 32.3 | 7,581 | 1.52 | 2,582 | 1,251.1 |
+| 10,000 | random a–z | 73.9 | 19,970 | 2.00 | 6 | 2.18 |
+| 10,000 | Fibonacci word | 54.0 | 14,178 | 1.42 | 5,819 | 2,567.0 |
+
+![Kasai running time](plots/kasai-time.svg)
+
+---
+
+## 7. Theory versus experiment
+
+### 7.1 Dynamic programming: quadratic, as predicted
+
+* The number of cells is exactly n² (10⁴ → 2.5·10⁵ → 10⁶), so the theoretical work grows ×25 and ×4 between the measured sizes. LCS time grew ×20 and ×3.2, Edit Distance ×23 and ×3.8: the same quadratic trend, and the curve in the plot bends upward like a parabola.
+* Time per cell is almost constant (1.7–2.9 ns). It is slightly *higher* for n = 100 because fixed costs (allocating the table, method call) are spread over fewer cells; it does not grow for n = 1,000 even though one table is already ~4 MB, because both algorithms read memory row by row, which the CPU prefetcher handles well.
+* Edit Distance costs ~1.1–1.5× more per cell than LCS. Both are Θ(nm), but ED computes a three-way minimum and an extra comparison in every cell, while LCS takes one of two cheaper branches. Big-O hides exactly this constant.
+* The answers themselves are plausible for random text over 26 letters: LCS ≈ 0.32·n and edit distance ≈ 0.89·n (most characters must be substituted).
+
+### 7.2 String matching on random text: all three are linear; constants decide
+
+* **Comparison counts match the theory precisely.** Naive used 1.04 comparisons per text character — exactly the expected `σ/(σ−1) = 26/25 = 1.04` for random text. KMP used the same 1.04 per character (it can never use more than 2). So on this input the theoretical *worst-case* advantage of KMP simply does not appear: Naive's typical case is already linear.
+* **Time** grows linearly for all three (×4.4–5.2 from 10k to 50k and ×1.9–2.0 from 50k to 100k, matching the ×5 and ×2 growth of n). KMP was 20–34 % faster than Naive: although both compare the same number of characters, KMP walks through the text once with a simple state update, while Naive restarts an inner loop at every shift.
+* **Rabin–Karp was the slowest (2.8–3.0× slower than KMP)** despite doing almost no character comparisons (16 for one verification, 0 when absent). This is the clearest example of theory vs practice: comparison counts are the wrong cost model for Rabin–Karp. Its cost per window is two 64×64→128-bit modular multiplications plus additions and subtractions, versus one `char` comparison for KMP. Asymptotically all three are Θ(n + m) here; the constant factor of Rabin–Karp is ~3× larger.
+* There were **0 spurious hits** with modulus 2⁶¹−1, as predicted by the ≈ (n−m+1)/q estimate. The forced-collision test with q = 7 shows the opposite extreme.
+
+### 7.3 String matching on the Fibonacci word: repetitive text separates the algorithms
+
+* **Naive needed 5.5 comparisons per character** (550,454 for n = 100,000) instead of 1.04, because at many shifts the pattern matches a long prefix before failing. KMP still needed only **1.02–1.06**, confirming the ≤ 2n guarantee in a case where re-reading is expensive. The time gap grew accordingly: Naive is now **2.2–2.5× slower** than KMP (it was only 1.2–1.5× slower on random text). The gap in time is smaller than the 5× gap in comparisons because Naive's extra comparisons are cheap, sequential reads of characters that are already in cache.
+* Naive grew linearly here as well, not as n·m: the *average* length of a partial match in the Fibonacci word is a constant (~5.5), so the cost is ≈ 5.5·n. The true Θ(n·m) worst case requires an input like `aaaa…a` / `aa…ab`, which is covered by a unit test that checks the exact count (n−m+1)·m.
+* For Naive the present and absent patterns cost the same number of comparisons, since they differ only in the last two characters.
+* **Rabin–Karp shows its expected `O(n + k·m)` behaviour.** With the pattern present there are k = 3,443 occurrences, each verified with m = 40 comparisons: 3,443 · 40 = 137,720 comparisons — exactly the measured number. This verification work raised its time from 572 µs (absent) to 696 µs (present). When the number of real matches grows towards n, this term becomes the O(n·m) worst case.
+* KMP's border table is also richer for this pattern (44–48 setup comparisons for m = 40), still within the < 2m bound.
+
+### 7.4 Kasai: linear even when LCP values are huge
+
+* **Comparisons per character never exceeded 2** for any input, well inside the ≤ 3n bound, and the comparison counts grow *exactly* linearly (≈1,970 → 9,970 → 19,970 on random text). Time grew roughly linearly too (random: ×5.7 then ×2.6; Fibonacci: ×7.2 then ×1.7). At only 5–75 µs per run, individual ratios are sensitive to timer resolution, JIT state and cache effects, so the operation counts are the more reliable confirmation of linearity here.
+* The Fibonacci word is the most instructive case. Its **average LCP is 2,567** for n = 10,000, so computing every LCP naively would take Σ LCP ≈ 25.7 million comparisons. Kasai needed **14,178**. This is the amortised argument from Section 1.6 in action: long common prefixes are *inherited* (`h−1`) from the previous text position rather than recomputed.
+* On random text LCP values are tiny (max 4–6, average about 2), so for almost every suffix Kasai makes one successful comparison and one mismatch, which explains the measured ≈ 2.00 comparisons per character.
+* Paradoxically, the string with *enormous* LCP values needed *fewer* comparisons (1.42 vs 2.00 per character) and less time at n = 10,000. Long inherited prefixes mean that most iterations only extend `h` a little before the mismatch, while on random text almost every iteration starts from `h = 0` and pays for one match and one mismatch. The cost of Kasai depends on how much `h` *changes*, not on how large it is.
+
+### 7.5 Summary
+
+| Prediction from theory | Observed |
+|---|---|
+| LCS, ED Θ(n²) for n = m | ✔ ×20–23 for ×25 more cells; ~2 ns per cell |
+| Naive expected Θ(n) on random text, ≈ σ/(σ−1) comparisons per character | ✔ exactly 1.04 |
+| Naive grows with repetitiveness, worst case Θ(n·m) | ✔ 5.5 comparisons/char on Fibonacci; exact (n−m+1)·m in the unit test |
+| KMP Θ(n + m), ≤ 2n comparisons | ✔ 1.02–1.06 per character on every input |
+| Rabin–Karp expected Θ(n + m + k·m), spurious hits ≈ n/q | ✔ verification = k·m exactly; 0 spurious hits |
+| Kasai Θ(n), ≤ 3n comparisons | ✔ ≤ 2n, independent of LCP size |
+| *Not predicted by Big-O:* Rabin–Karp slowest, ED slower than LCS, Naive only 2.3× slower despite 5× more comparisons | constant factors: cost per step and memory behaviour |
+
+---
+
+## 8. Conclusion: trade-offs
+
+* **LCS vs Edit Distance.** Both are exact, simple and Θ(n·m) in time **and** memory; with ~2 ns per cell they handle strings of a few thousand characters easily, but 100,000 × 100,000 would need 40 GB for the table. Choose LCS when only *shared content* matters (diff tools), Edit Distance when *cost of change* matters (spell checking, fuzzy matching). Keeping the full table costs memory but allows reconstructing the subsequence / the edit script; if only the number is needed, two rows (O(min(n, m)) space) are enough.
+* **Naive** has zero preprocessing and the smallest code, and on random text with a large alphabet it is nearly as fast as KMP. Its weakness is unpredictability: its cost depends on how repetitive the text is (5× more comparisons on the Fibonacci word) and can degrade to Θ(n·m).
+* **KMP** gives a *guaranteed* Θ(n + m) with ≤ 2 comparisons per character, never moves backwards in the text (so it works on streams), and was the fastest in every experiment. The price is an O(m) table and a slightly more subtle implementation. It is the best default for a single pattern.
+* **Rabin–Karp** is always correct thanks to verification, but its speed guarantee is only *expected*: many real matches or a weak modulus push it towards Θ(n·m), and its per-window arithmetic made it ~3× slower than KMP in this single-pattern setting. Its real strengths lie elsewhere: searching for **many patterns of the same length at once** (one hash-set lookup per window), and 2-D / plagiarism-detection variants.
+* **Kasai** converts a suffix array into an LCP array in true linear time with < 2n comparisons even when the common prefixes are thousands of characters long. Together with the suffix array it answers repeated-substring and distinct-substring questions that none of the other algorithms can. In a complete pipeline the bottleneck is suffix-array construction, not Kasai.
+
+**Overall:** the asymptotic analysis correctly predicted every *growth rate*, and the operation counts matched the formulas almost exactly. Which algorithm is *fastest* on a given input, however, was decided by constant factors (arithmetic vs comparisons, memory access patterns) and by the structure of the input, which is why both theoretical analysis and measurement are needed.
+
+---
+
+## 9. Build, run, repository layout and Git workflow
+
+### Requirements
+
+* JDK **17 or newer** (`java -version`). Nothing else: no Maven, no Python.
+
+### Commands
+
+| Linux / macOS / Git Bash | Windows PowerShell | What it does |
+|---|---|---|
+| `sh lab.sh build` | `powershell -ExecutionPolicy Bypass -File lab.ps1 build` | compile to `build/` and create `build/text-algorithms-lab.jar` |
+| `sh lab.sh test` | `... lab.ps1 test` | build and run all 47 checks |
+| `sh lab.sh demo` | `... lab.ps1 demo` | worked examples (LCS, edit script, matching, Kasai table) |
+| `sh lab.sh bench` | `... lab.ps1 bench` | run all experiments; rewrites `results/` and `plots/` |
+| `sh lab.sh` | `... lab.ps1` | all of the above |
+
+Manual build without the scripts:
+
+```bash
+javac --release 17 -d build/main $(find src/main/java -name "*.java")
+javac --release 17 -cp build/main -d build/test $(find src/test/java -name "*.java")
+java -cp build/main:build/test io.github.ignat22.textlab.testkit.TestLauncher   # on Windows use ';' instead of ':'
+java -cp build/main io.github.ignat22.textlab.App demo
+java -cp build/main io.github.ignat22.textlab.App bench
+```
+
+In IntelliJ IDEA: open the folder, mark `src/main/java` as *Sources Root* and `src/test/java` as *Test Sources Root*, then run `App` (program argument `demo` or `bench`) or `TestLauncher`. Run `bench` from the repository root so that `results/` and `plots/` are written to the right place.
+
+### Repository layout
+
+```
+text-algorithms-lab/
+├── README.md                     this report
+├── lab.sh, lab.ps1               build / test / demo / bench scripts
+├── src/main/java/io/github/ignat22/textlab/
+│   ├── App.java                  entry point: demo | bench
+│   ├── dp/                       LcsSolver, LcsResult, EditDistanceSolver, EditScript, EditStep
+│   ├── search/                   PatternSearcher (template), NaiveSearcher, KmpSearcher,
+│   │                             RabinKarpSearcher, SearchReport, SearchCounters
+│   ├── suffix/                   SuffixArrays, KasaiLcp, LcpResult
+│   ├── bench/                    BenchmarkSuite, Workloads, Stopwatch, Measurement, ResultTable
+│   └── chart/                    SvgLineChart
+├── src/test/java/io/github/ignat22/textlab/
+│   ├── testkit/                  Check, Expect, RandomStrings, TestLauncher
+│   ├── dp/                       LcsTests, EditDistanceTests
+│   ├── search/                   PatternSearchTests, RabinKarpTests
+│   └── suffix/                   SuffixArrayTests, KasaiTests
+├── results/                      RESULTS.md, dp.csv, matching-random.csv, matching-fibonacci.csv, kasai.csv
+└── plots/                        dp-time.svg, matching-{random,fibonacci}-{present,absent}.svg, kasai-time.svg
+```
+
+### Git workflow
+
+Development used a `develop` integration branch with one short-lived branch per part. Each branch was merged into `develop` with a merge commit (`--no-ff`) so the history keeps the structure, and the finished `develop` was merged into `main` and tagged `v1.0`.
+
+| Branch | Content |
+|---|---|
+| `feature/project-setup` | build scripts, `.gitignore`, test framework |
+| `feature/dynamic-programming` | LCS, Edit Distance with reconstruction, their tests |
+| `feature/pattern-search` | template base class, Naive, KMP, Rabin–Karp, their tests |
+| `feature/suffix-lcp` | suffix array helper, Kasai, their tests |
+| `feature/benchmarks` | workloads, stopwatch, SVG charts, experiment suite, results and plots |
+| `docs/report` | this README |
+
+```bash
+git log --oneline --graph --all     # shows the branch-and-merge history
+```
