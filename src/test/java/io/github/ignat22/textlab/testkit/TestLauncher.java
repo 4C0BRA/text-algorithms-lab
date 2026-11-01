@@ -4,6 +4,7 @@ import io.github.ignat22.textlab.dp.EditDistanceTests;
 import io.github.ignat22.textlab.dp.LcsTests;
 import io.github.ignat22.textlab.search.PatternSearchTests;
 import io.github.ignat22.textlab.search.RabinKarpTests;
+import io.github.ignat22.textlab.suffix.KasaiTests;
 import io.github.ignat22.textlab.suffix.SuffixArrayTests;
 
 import java.lang.reflect.InvocationTargetException;
@@ -20,7 +21,8 @@ public final class TestLauncher {
             EditDistanceTests.class,
             PatternSearchTests.class,
             RabinKarpTests.class,
-            SuffixArrayTests.class
+            SuffixArrayTests.class,
+            KasaiTests.class
     );
 
     public static void main(String[] args) throws Exception {
